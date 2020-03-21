@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from tkinter import *
+from functools import partial
 
 # our field
 field = dict()
@@ -8,9 +9,15 @@ field = dict()
 for i in range(3):
     field[i] = dict()
     for j in range(3) :
-        field[i][j] = ""
+        field[i][j] = "~"
 
 next_turn = "X"
+
+def print_field() :
+    for i in range(3):
+        for j in range(3) :
+            print(f"{field[i][j]}", end='')
+        print("")
 
 def change_next_turn():
     global next_turn
@@ -19,85 +26,14 @@ def change_next_turn():
     else :
         next_turn = "X"
 
-def btn0_click(event):
-    idx = 0
+def btn_click(idx) :
     if btns[idx]["state"] == "disabled" :
         return
     btns[idx]["text"] = next_turn
     btns[idx]["state"] = "disabled"
+    field[int(idx/3)][idx%3] = next_turn ; print_field()
     change_next_turn()
 
-
-def btn1_click(event):
-    idx = 1
-    if btns[idx]["state"] == "disabled" :
-        return
-    btns[idx]["text"] = next_turn
-    btns[idx]["state"] = "disabled"
-    change_next_turn()
-
-
-def btn2_click(event):
-    idx = 2
-    if btns[idx]["state"] == "disabled" :
-        return
-    btns[idx]["text"] = next_turn
-    btns[idx]["state"] = "disabled"
-    change_next_turn()
-
-
-def btn3_click(event):
-    idx = 3
-    if btns[idx]["state"] == "disabled" :
-        return
-    btns[idx]["text"] = next_turn
-    btns[idx]["state"] = "disabled"
-    change_next_turn()
-
-
-def btn4_click(event):
-    idx = 4
-    if btns[idx]["state"] == "disabled" :
-        return
-    btns[idx]["text"] = next_turn
-    btns[idx]["state"] = "disabled"
-    change_next_turn()
-
-
-def btn5_click(event):
-    idx = 5
-    if btns[idx]["state"] == "disabled" :
-        return
-    btns[idx]["text"] = next_turn
-    btns[idx]["state"] = "disabled"
-    change_next_turn()
-
-
-def btn6_click(event):
-    idx = 6
-    if btns[idx]["state"] == "disabled" :
-        return
-    btns[idx]["text"] = next_turn
-    btns[idx]["state"] = "disabled"
-    change_next_turn()
-
-
-def btn7_click(event):
-    idx = 7
-    if btns[idx]["state"] == "disabled" :
-        return
-    btns[idx]["text"] = next_turn
-    btns[idx]["state"] = "disabled"
-    change_next_turn()
-
-
-def btn8_click(event):
-    idx = 8
-    if btns[idx]["state"] == "disabled" :
-        return
-    btns[idx]["text"] = next_turn
-    btns[idx]["state"] = "disabled"
-    change_next_turn()
 
 ## INITIALIZE
 
@@ -117,6 +53,7 @@ for i in range(9):
         font="10",
         padx="10",
         pady="5",
+        command = partial(btn_click, i),
     )
     xx = (i % 3) * 100
     yy = int(i / 3) * 100
@@ -125,10 +62,10 @@ for i in range(9):
     btns.append(btn)
 
 # Binding 
-idx = 0
-for btn in btns:
-    btn.bind("<Button-1>", eval("btn" + str(idx) + "_click"))
-    idx += 1
+#idx = 0
+#for btn in btns:
+#    btn.bind("<Button-1>", eval("btn" + str(idx) + "_click"))
+#    idx += 1
 
 # play game
 
