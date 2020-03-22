@@ -43,16 +43,19 @@ root.title("Tic Tac Toe")
 
 btns = list()
 
+bg_img = PhotoImage(file = r"field.png")
+
 for i in range(9):
     btn = Button(
         text=f"",
         background="#555555",
         foreground="#ffffff",
-        width="8",
-        height="5",
+        width=100,
+        height=100,
         font="10",
-        padx="10",
-        pady="5",
+        padx=0,
+        pady=0,
+        image = bg_img,
         command = partial(btn_click, i),
     )
     xx = (i % 3) * 100
