@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from tkinter import *
+from tkinter import messagebox
 from functools import partial
 
 # our field
@@ -12,6 +13,25 @@ for i in range(3):
         field[i][j] = "~"
 
 next_turn = "X"
+
+def check_win():
+    """Check if somebody win the game."""
+    for i in range(3):
+        if field[i][0] != "~" and field[i][0] == field[i][1] and field[i][0] == field[i][2] :
+            messagebox.showinfo(title = 'Win the game', message = f"{field[i][0]} win the game!")
+            return 
+        if field[0][i] != "~" and field[0][i] == field[1][i] and field[0][i] == field[2][i] :
+            messagebox.showinfo(title = 'Win the game', message = f"{field[0][i]} win the game!")
+            return 
+
+    if field[0][0] != "~" and field[0][0] == field[1][1] and field[0][0] == field[2][2] :
+        messagebox.showinfo(title = 'Win the game', message = f"{field[0][0]} win the game!")
+        return 
+
+    if field[0][2] != "~" and field[0][2] == field[1][1] and field[0][2] == field[2][0] :
+        messagebox.showinfo(title = 'Win the game', message = f"{field[0][2]} win the game!")
+        return 
+
 
 def print_field() :
     for i in range(3):
@@ -33,6 +53,8 @@ def btn_click(idx) :
     btns[idx]["state"] = "disabled"
     field[int(idx/3)][idx%3] = next_turn ; print_field()
     change_next_turn()
+    # we must check if somebody win the game
+    check_win()
 
 
 ## INITIALIZE
