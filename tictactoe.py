@@ -18,19 +18,31 @@ def check_win():
     """Check if somebody win the game."""
     for i in range(3):
         if field[i][0] != "~" and field[i][0] == field[i][1] and field[i][0] == field[i][2] :
-            messagebox.showinfo(title = 'Win the game', message = f"{field[i][0]} win the game!")
+            messagebox.showinfo(title = 'Game over', message = f"{field[i][0]} win the game!")
             return 
         if field[0][i] != "~" and field[0][i] == field[1][i] and field[0][i] == field[2][i] :
-            messagebox.showinfo(title = 'Win the game', message = f"{field[0][i]} win the game!")
+            messagebox.showinfo(title = 'Game over', message = f"{field[0][i]} win the game!")
             return 
 
     if field[0][0] != "~" and field[0][0] == field[1][1] and field[0][0] == field[2][2] :
-        messagebox.showinfo(title = 'Win the game', message = f"{field[0][0]} win the game!")
+        messagebox.showinfo(title = 'Game over', message = f"{field[0][0]} win the game!")
         return 
 
     if field[0][2] != "~" and field[0][2] == field[1][1] and field[0][2] == field[2][0] :
-        messagebox.showinfo(title = 'Win the game', message = f"{field[0][2]} win the game!")
+        messagebox.showinfo(title = 'Game over', message = f"{field[0][2]} win the game!")
         return 
+    
+    # check if nobody win
+    nobody_win = True
+    for i in range(3):
+        for j in range(3):
+            if field[i][j] == "~" :
+                nobody_win = False
+                break
+    if nobody_win == True :
+       messagebox.showinfo(title = 'Game over', message = f"Friendship forever!") 
+       return 
+
 
 
 def print_field() :
