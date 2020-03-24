@@ -193,6 +193,7 @@ def do_next_turn():
     if win_the_game:
         return
 
+    # AI LINE
     for i in range(3):
         x = 0  # number of X
         o = 0  # number of 0
@@ -227,8 +228,6 @@ def do_next_turn():
 
             return
 
-
-
         # defence
         if x == 2 and s == 1:
             # turn AI
@@ -250,6 +249,63 @@ def do_next_turn():
 
             return
 
+    # AI COL
+    for j in range(3):
+        x = 0  # number of X
+        o = 0  # number of 0
+        s = 0  # field empty
+        for i in range(3):
+            if field[i][j] == "~":
+                s = s + 1
+            elif field[i][j] == "X":
+                x = x + 1
+            else:
+                o = o + 1
+        # 
+        print(f"j = {j} | x = {x} o = {o} s = {s}")
+        # atack
+        if o == 2 and s == 1:
+            # turn AI
+            if field[0][j] == '~' :
+                y = 0
+            elif field[1][j] == '~' : 
+                y = 1
+            else :
+                y = 2
+
+            field[y][j] = next_turn
+
+            num = y * 3 + j
+            btns[num]["text"] = next_turn
+            btns[num]["state"] = "disabled"
+            root.update_idletasks()
+
+            change_next_turn()
+            check_win()
+
+            return
+
+        # defence
+        if x == 2 and s == 1:
+            # turn AI
+            if field[0][j] == '~' :
+                y = 0
+            elif field[1][j] == '~' : 
+                y = 1
+            else :
+                y = 2
+
+            field[y][j] = next_turn
+
+            num = y * 3 + j
+            btns[num]["text"] = next_turn
+            btns[num]["state"] = "disabled"
+            root.update_idletasks()
+
+            change_next_turn()
+            check_win()
+
+            return
 
     ### random turn
     is_field_empty = False
@@ -260,7 +316,6 @@ def do_next_turn():
         if field[x][y] == "~":
             is_field_empty = True
             # we can do our turn
-
             field[x][y] = next_turn
 
             num = x * 3 + y
