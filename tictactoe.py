@@ -5,6 +5,21 @@ from tkinter import messagebox
 from functools import partial
 from random import randrange
 from time import sleep
+#import tkinter
+#from PIL import Image, ImageTk          media/default/X/btn-x-0.png 
+#   bg_img = PhotoImage(file = f'media/default/blank/btn-x-0.png')
+
+#win = tkinter.Tk()
+
+#img_name = 'media/default/blank/btn-~-0.png'
+
+#img = Image.open(img_name)
+#img_photo = ImageTk.PhotoImage(img)
+
+#label = tkinter.Label(win, image=img_photo, command=lambda: print('test'))
+#label.place(x=0, y=0)
+
+#win.mainloop()
 
 # our field
 btns = list()
@@ -19,6 +34,22 @@ for i in range(3):
 next_turn = "X"
 win_the_game = False
 
+bg_imgs = list()
+for i in range(9):
+    tmp = PhotoImage(file = f'media/neon/blank/btn-~-{i}.png')
+    bg_imgs.append(tmp)
+
+bg_imgs_x = list()
+for i in range(9):
+    tmp = PhotoImage(file = f'media/neon/X/btn-x-{i}.png')
+    bg_imgs_x.append(tmp)
+
+bg_imgs_o = list()
+for i in range(9):
+    tmp = PhotoImage(file = f'media/neon/O/btn-0-{i}.png')
+    bg_imgs_o.append(tmp)
+
+
 
 def start_new_game():
     """Start a new game"""
@@ -27,6 +58,7 @@ def start_new_game():
     global win_the_game
     global btns
     global root
+    global bg_imgs
 
     for i in range(3):
         field[i] = dict()
@@ -38,7 +70,7 @@ def start_new_game():
 
     # clear buttons
     for idx in range(9):
-        btns[idx]["text"] = ""
+        btns[idx]['image'] = bg_imgs[idx]
         btns[idx]["state"] = "normal"
     root.update_idletasks()
 
@@ -48,6 +80,7 @@ def init_game():
     global field
     global btns
     global root
+    global bg_imgs
 
     root.geometry("300x300")
     root.title("Tic Tac Toe")
@@ -57,11 +90,12 @@ def init_game():
             text=f"",
             background="#555555",
             foreground="#ffffff",
-            width="8",
-            height="5",
+            width="100",
+            height="100",
             font="10",
             padx="10",
             pady="5",
+            image = bg_imgs[i],
             command=partial(btn_click, i),
         )
         xx = (i % 3) * 100
@@ -166,12 +200,14 @@ def change_next_turn():
 
 
 def btn_click(idx):
+    global bg_imgs_x
+
     if btns[idx]["state"] == "disabled":
         return
-    if next_turn == "0":
+    if next_turn == '':
         return
 
-    btns[idx]["text"] = next_turn
+    btns[idx]["image"] = bg_imgs_x[idx]
     btns[idx]["state"] = "disabled"
     root.update_idletasks()
     field[int(idx / 3)][idx % 3] = next_turn
@@ -186,6 +222,7 @@ def btn_click(idx):
 def do_next_turn():
     """AI tic tac toe algorithm"""
     global win_the_game
+    global bg_imgs_o
 
     if next_turn == "X":
         return
@@ -219,7 +256,8 @@ def do_next_turn():
             field[i][y] = next_turn
 
             num = i * 3 + y
-            btns[num]["text"] = next_turn
+            #btns[num]["text"] = next_turn
+            btns[num]["image"] = bg_imgs_o[num]
             btns[num]["state"] = "disabled"
             root.update_idletasks()
 
@@ -240,7 +278,8 @@ def do_next_turn():
             field[i][y] = next_turn
 
             num = i * 3 + y
-            btns[num]["text"] = next_turn
+            #btns[num]["text"] = next_turn
+            btns[num]["image"] = bg_imgs_o[num]
             btns[num]["state"] = "disabled"
             root.update_idletasks()
 
@@ -276,7 +315,8 @@ def do_next_turn():
             field[y][j] = next_turn
 
             num = y * 3 + j
-            btns[num]["text"] = next_turn
+            #btns[num]["text"] = next_turn
+            btns[num]["image"] = bg_imgs_o[num]
             btns[num]["state"] = "disabled"
             root.update_idletasks()
 
@@ -298,7 +338,8 @@ def do_next_turn():
             field[y][j] = next_turn
 
             num = y * 3 + j
-            btns[num]["text"] = next_turn
+            #btns[num]["text"] = next_turn
+            btns[num]["image"] = bg_imgs_o[num]
             btns[num]["state"] = "disabled"
             root.update_idletasks()
 
@@ -307,9 +348,126 @@ def do_next_turn():
 
             return
 
+    # AI DIAG 1
+
+    x = 0  # number of X
+    o = 0  # number of 0
+    s = 0  # field empty
+    for j in range(3):
+        if field[j][j] == "~":
+            s = s + 1
+        elif field[j][j] == "X":
+            x = x + 1
+        else:
+            o = o + 1
+    # 
+    print(f"d1  | x = {x} o = {o} s = {s}")
+    # atack
+    if o == 2 and s == 1:
+        # turn AI
+        if field[0][0] == '~' :
+            y = 0
+        elif field[1][1] == '~' : 
+            y = 1
+        else :
+            y = 2
+        field[y][y] = next_turn
+
+        num = y * 3 + y
+        #btns[num]["text"] = next_turn
+        btns[num]["image"] = bg_imgs_o[num]
+        btns[num]["state"] = "disabled"
+        root.update_idletasks()
+
+        change_next_turn()
+        check_win()
+
+        return
+
+    # defence
+    if x == 2 and s == 1:
+        # turn AI
+        if field[0][0] == '~' :
+            y = 0
+        elif field[1][1] == '~' : 
+            y = 1
+        else :
+            y = 2
+        field[y][y] = next_turn
+
+        num = y * 3 + y
+        #btns[num]["text"] = next_turn
+        btns[num]["image"] = bg_imgs_o[num]
+        btns[num]["state"] = "disabled"
+        root.update_idletasks()
+
+        change_next_turn()
+        check_win()
+
+        return
+
+    # AI DIAG 2
+
+    x = 0  # number of X
+    o = 0  # number of 0
+    s = 0  # field empty
+    for j in range(3):
+        if field[j][2-j] == "~":
+            s = s + 1
+        elif field[j][2-j] == "X":
+            x = x + 1
+        else:
+            o = o + 1
+    # 
+    print(f"d2  | x = {x} o = {o} s = {s}")
+    # atack
+    if o == 2 and s == 1:
+        # turn AI
+        if field[0][2] == '~' :
+            y = 0
+        elif field[1][1] == '~' : 
+            y = 1
+        else :
+            y = 2
+        field[y][2-y] = next_turn
+
+        num = y * 3 + (2-y)
+        #btns[num]["text"] = next_turn
+        btns[num]["image"] = bg_imgs_o[num]
+        btns[num]["state"] = "disabled"
+        root.update_idletasks()
+
+        change_next_turn()
+        check_win()
+
+        return
+
+    # defence
+    if x == 2 and s == 1:
+        # turn AI
+        if field[0][2] == '~' :
+            y = 0
+        elif field[1][1] == '~' : 
+            y = 1
+        else :
+            y = 2
+        field[y][2-y] = next_turn
+
+        num = y * 3 + (2-y)
+        #btns[num]["text"] = next_turn
+        btns[num]["image"] = bg_imgs_o[num]
+        btns[num]["state"] = "disabled"
+        root.update_idletasks()
+
+        change_next_turn()
+        check_win()
+
+        return
+
+
     ### random turn
     is_field_empty = False
-
+    print (f"Random turn")
     while is_field_empty == False:
         x = randrange(0, 3)
         y = randrange(0, 3)
@@ -319,7 +477,8 @@ def do_next_turn():
             field[x][y] = next_turn
 
             num = x * 3 + y
-            btns[num]["text"] = next_turn
+            #btns[num]["text"] = next_turn
+            btns[num]["image"] = bg_imgs_o[num]
             btns[num]["state"] = "disabled"
             root.update_idletasks()
 
