@@ -2,6 +2,7 @@
 
 from tkinter import *
 from tkinter import messagebox
+from tkinter import simpledialog
 from functools import partial
 from random import randrange
 from time import sleep
@@ -19,19 +20,26 @@ for i in range(3):
 next_turn = "X"
 win_the_game = False
 
+style = simpledialog.askstring(title="Style", prompt="What style do you want to use: default, neon, wood")
+
+if style == 'default' or style == 'neon' or style == 'wood':
+    pass
+else :
+    style = 'default'
+
 bg_imgs = list()
 for i in range(9):
-    tmp = PhotoImage(file = f'media/neon/blank/btn-~-{i}.png')
+    tmp = PhotoImage(file = f'media/{style}/blank/btn-~-{i}.png')
     bg_imgs.append(tmp)
 
 bg_imgs_x = list()
 for i in range(9):
-    tmp = PhotoImage(file = f'media/neon/X/btn-x-{i}.png')
+    tmp = PhotoImage(file = f'media/{style}/X/btn-x-{i}.png')
     bg_imgs_x.append(tmp)
 
 bg_imgs_o = list()
 for i in range(9):
-    tmp = PhotoImage(file = f'media/neon/O/btn-0-{i}.png')
+    tmp = PhotoImage(file = f'media/{style}/O/btn-0-{i}.png')
     bg_imgs_o.append(tmp)
 
 
@@ -68,6 +76,15 @@ def init_game():
     global bg_imgs
 
     root.geometry("300x300")
+
+    w = root.winfo_reqwidth()
+    h = root.winfo_reqheight()
+    ws = root.winfo_screenwidth()
+    hs = root.winfo_screenheight()
+    x = (ws/2) - (w/2)
+    y = (hs/2) - (h/2)
+    root.geometry('+%d+%d' % (x, y)) 
+
     root.title("Tic Tac Toe")
 
     for i in range(9):
@@ -77,11 +94,12 @@ def init_game():
             foreground="#ffffff",
             width="100",
             height="100",
-            font="10",
-            padx="0",
-            pady="0",
+            padx=0,
+            pady=0,
             image = bg_imgs[i],
             command=partial(btn_click, i),
+            highlightthickness=0,
+            borderwidth=1,
         )
         xx = (i % 3) * 100
         yy = int(i / 3) * 100
