@@ -5,21 +5,6 @@ from tkinter import messagebox
 from functools import partial
 from random import randrange
 from time import sleep
-#import tkinter
-#from PIL import Image, ImageTk          media/default/X/btn-x-0.png 
-#   bg_img = PhotoImage(file = f'media/default/blank/btn-x-0.png')
-
-#win = tkinter.Tk()
-
-#img_name = 'media/default/blank/btn-~-0.png'
-
-#img = Image.open(img_name)
-#img_photo = ImageTk.PhotoImage(img)
-
-#label = tkinter.Label(win, image=img_photo, command=lambda: print('test'))
-#label.place(x=0, y=0)
-
-#win.mainloop()
 
 # our field
 btns = list()
@@ -93,8 +78,8 @@ def init_game():
             width="100",
             height="100",
             font="10",
-            padx="10",
-            pady="5",
+            padx="0",
+            pady="0",
             image = bg_imgs[i],
             command=partial(btn_click, i),
         )
@@ -202,13 +187,18 @@ def change_next_turn():
 def btn_click(idx):
     global bg_imgs_x
 
-    if btns[idx]["state"] == "disabled":
+    # secure 
+
+    if field[int(idx / 3)][idx % 3] == "~" :
+        pass
+    else :
         return
+
     if next_turn == '':
         return
 
     btns[idx]["image"] = bg_imgs_x[idx]
-    btns[idx]["state"] = "disabled"
+    #btns[idx]["state"] = "disabled"
     root.update_idletasks()
     field[int(idx / 3)][idx % 3] = next_turn
     print_field()
@@ -258,7 +248,7 @@ def do_next_turn():
             num = i * 3 + y
             #btns[num]["text"] = next_turn
             btns[num]["image"] = bg_imgs_o[num]
-            btns[num]["state"] = "disabled"
+            #btns[num]["state"] = "disabled"
             root.update_idletasks()
 
             change_next_turn()
@@ -280,7 +270,7 @@ def do_next_turn():
             num = i * 3 + y
             #btns[num]["text"] = next_turn
             btns[num]["image"] = bg_imgs_o[num]
-            btns[num]["state"] = "disabled"
+            #btns[num]["state"] = "disabled"
             root.update_idletasks()
 
             change_next_turn()
@@ -317,7 +307,7 @@ def do_next_turn():
             num = y * 3 + j
             #btns[num]["text"] = next_turn
             btns[num]["image"] = bg_imgs_o[num]
-            btns[num]["state"] = "disabled"
+            #btns[num]["state"] = "disabled"
             root.update_idletasks()
 
             change_next_turn()
@@ -340,7 +330,7 @@ def do_next_turn():
             num = y * 3 + j
             #btns[num]["text"] = next_turn
             btns[num]["image"] = bg_imgs_o[num]
-            btns[num]["state"] = "disabled"
+            #btns[num]["state"] = "disabled"
             root.update_idletasks()
 
             change_next_turn()
@@ -376,7 +366,7 @@ def do_next_turn():
         num = y * 3 + y
         #btns[num]["text"] = next_turn
         btns[num]["image"] = bg_imgs_o[num]
-        btns[num]["state"] = "disabled"
+        #btns[num]["state"] = "disabled"
         root.update_idletasks()
 
         change_next_turn()
@@ -398,7 +388,7 @@ def do_next_turn():
         num = y * 3 + y
         #btns[num]["text"] = next_turn
         btns[num]["image"] = bg_imgs_o[num]
-        btns[num]["state"] = "disabled"
+        #btns[num]["state"] = "disabled"
         root.update_idletasks()
 
         change_next_turn()
@@ -434,7 +424,7 @@ def do_next_turn():
         num = y * 3 + (2-y)
         #btns[num]["text"] = next_turn
         btns[num]["image"] = bg_imgs_o[num]
-        btns[num]["state"] = "disabled"
+        #btns[num]["state"] = "disabled"
         root.update_idletasks()
 
         change_next_turn()
@@ -456,7 +446,7 @@ def do_next_turn():
         num = y * 3 + (2-y)
         #btns[num]["text"] = next_turn
         btns[num]["image"] = bg_imgs_o[num]
-        btns[num]["state"] = "disabled"
+        #btns[num]["state"] = "disabled"
         root.update_idletasks()
 
         change_next_turn()
@@ -479,7 +469,7 @@ def do_next_turn():
             num = x * 3 + y
             #btns[num]["text"] = next_turn
             btns[num]["image"] = bg_imgs_o[num]
-            btns[num]["state"] = "disabled"
+            #btns[num]["state"] = "disabled"
             root.update_idletasks()
 
             change_next_turn()
